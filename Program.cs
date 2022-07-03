@@ -1,51 +1,52 @@
 ﻿namespace HelloWorld
 {   public static class PasswordChecker
     {
-        public static void Main(string[] args)
+        static int MaxPasswordLength = 8;
+        static void Main(String[] args)
         {
-            string password = " Abh5";
-            Console.WriteLine(CheckPassword(password));
+            Console.WriteLine("Enter the Password");
+            string password = Console.ReadLine();
+            VerifyPassword(password);
         }
-        public static bool CheckPassword(string password)
+        public static void VerifyPassword(string password)
         {
-            int checkValidity = 0;
-            foreach (char character in password)
+            try
             {
-                if (character >= 'a' && character <= 'z')
+                //TO CHECK PASSWORD LENGTH
+                if (password.Length < MaxPasswordLength)
                 {
-                    checkValidity++;
-                    break;
+                    throw new Exception("The password is less than 8 digits");
                 }
+
+                //TO CHECH PASSWORD NULL OR NOT
+                else if (string.IsNullOrWhiteSpace(password))
+                {
+                    throw new Exception("The password cannot be null");
+                }
+                //TO CHECK PASSWORD CONTAINS DIGIT
+
+                else if (!password.Any(char.IsDigit))
+                {
+                    throw new Exception("The password should have atleast one digit");
+                }
+                //TO CHECK IT CONTAINS UPPER CASE OR NOT
+                else if (!password.Any(char.IsUpper))
+                {
+                    throw new Exception("The password should contain uppercase");
+                }
+                //TO CHECK IT CONTAINS LOWER CASE OR NOT
+                else if (!password.Any(char.IsLower))
+                {
+                    throw new Exception("The password should contain lower case");
+
+                }
+                Console.WriteLine("The password is valid");
             }
 
-            foreach (char character in password)
+            catch (Exception e)
             {
-                if (character >= 'A' && character <= 'Z')
-                {
-                    checkValidity++;
-                    break;
-                }
+                Console.WriteLine(e.Message);
             }
-            if (password.Length < 9) return false;
-            
-            
-            foreach (char c in password)
-            {
-                if (c >= '0' && c <= '9')
-                {
-                    checkValidity++;
-                    break;
-                }
-            }
-
-            if (checkValidity < 3) return false;
-
-            else if (checkValidity == 3) {
-                return true;
-            } ;
-
-            return false;
-
         }
     }
 }
